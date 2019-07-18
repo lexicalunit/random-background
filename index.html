@@ -41,8 +41,9 @@
     }
 
     function loadImage() {
-      const file = window.location.pathname.replace(/^.*[\\\/]/, '').split('.')
-      const src = `${file[0]}.png`
+      const file = window.location.pathname.replace(/^.*[\\\/]/, '')
+      const base = file.substr(0, file.lastIndexOf('.'))
+      const src = `${base}.png`
       checkImage(src, () => {
         const img = document.createElement('img')
         img.src = src

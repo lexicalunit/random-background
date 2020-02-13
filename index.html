@@ -1,65 +1,71 @@
-<html>
-<head>
-  <style>
-    body {
-      font-family: sans;
-    }
-    a {
-      background-color: #707070;
-      border-radius: 5px;
-      color: #c0c0c0;
-      display: block;
-      height: 1em;
-      padding: 10px;
-      text-align: center;
-      text-decoration: none !important;
-      width: 250px;
-    }
-    img {
-      border: 0;
-    }
-  </style>
-  <script>
-    const letters = '0123456789ABCDEF'.split('')
-    function getRandomColor() {
-      let color = '#'
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)]
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Random Background Colors</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script>
+      const LETTERS = '0123456789ABCDEF'.split('')
+
+      function checkImage (imageSrc, good, bad) {
+        var img = new window.Image()
+        img.onload = good
+        img.onerror = bad
+        img.src = imageSrc
       }
-      return color
-    }
 
-    function changeBackground(color) {
-      document.body.style.background = color
-    }
+      window.getRandomColor = () => {
+        let color = '#'
+        for (let i = 0; i < 6; i++) {
+          color += LETTERS[Math.floor(Math.random() * 16)]
+        }
+        return color
+      }
 
-    function checkImage(imageSrc, good, bad) {
-      var img = new Image();
-      img.onload = good;
-      img.onerror = bad;
-      img.src = imageSrc;
-    }
+      window.changeBackground = (color) => {
+        document.body.style.background = color
+      }
 
-    function loadImage() {
-      const file = window.location.pathname.replace(/^.*[\\\/]/, '')
-      const base = file.substr(0, file.lastIndexOf('.'))
-      const src = `${base}.png`
-      checkImage(src, () => {
-        const img = document.createElement('img')
-        img.src = src
-        document.getElementById('content').appendChild(img)
-      }, () => {
-        const note = document.createElement('h1')
-        note.innerText = `Could not find a file by the name ${src}`
-        document.getElementById('content').appendChild(note)
-      })
-    }
-  </script>
-</head>
-<body onload="loadImage()">
-  <h1>
-    <a href="#" onclick="changeBackground(getRandomColor());">Change color</a>
-  </h1>
-  <div style="text-align: center; width: 100%;" id="content"></div>
-</body>
+      window.loadImage = () => {
+        const file = window.location.pathname.replace(/^.*[\\/]/, '')
+        const base = file.substr(0, file.lastIndexOf('.'))
+        const src = `${base}.png`
+        checkImage(src, () => {
+          const img = document.createElement('img')
+          img.src = src
+          document.getElementById('content').appendChild(img)
+        }, () => {
+          const note = document.createElement('h1')
+          note.innerText = `Could not find a file named ${src}`
+          document.getElementById('content').appendChild(note)
+        })
+      }
+    </script>
+    <style>
+      body {
+        font-family: sans;
+      }
+
+      a {
+        background-color: #707070;
+        border-radius: 5px;
+        color: #c0c0c0;
+        display: block;
+        height: 1em;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none !important;
+        width: 250px;
+      }
+
+      img {
+        border: 0;
+      }
+    </style>
+  </head>
+  <body onload="loadImage()">
+    <h1>
+      <a href="#" onclick="changeBackground(getRandomColor());">Change color</a>
+    </h1>
+    <div style="text-align: center; width: 100%;" id="content"></div>
+  </body>
 </html>
